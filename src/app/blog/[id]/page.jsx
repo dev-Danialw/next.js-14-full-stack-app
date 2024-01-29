@@ -1,15 +1,12 @@
 import Image from "next/image";
 
-const blog = {
-  id: 1,
-  title: "The Art of Creativity",
-  body: "Unlocking the door to creativity is a journey of self-discovery and expression. Embrace the power of imagination as you navigate through the vast landscape of artistic inspiration. From visual arts to written masterpieces, explore the techniques and stories that breathe life into creativity. Discover the profound impact of creativity on personal growth and the world around us, as we delve into the essence of artistic expression.",
-  createdAt: new Date(),
-  img: "https://picsum.photos/180/240?timestamp=1632767542",
-  slug: "the-art-of-creativity",
-};
+import { getBlog } from "@/lib/data";
 
-const SingleBlogPage = async () => {
+const SingleBlogPage = async ({ params }) => {
+  const { id } = params;
+
+  const blog = await getBlog(id);
+
   return (
     <div className="flex gap-24">
       {blog.img && (
@@ -19,7 +16,7 @@ const SingleBlogPage = async () => {
       )}
       <div className="flex flex-[2] flex-col gap-12">
         <h1 className="text-6xl">{blog.title}</h1>
-        <div className="flex gap-5">
+        <div className="flex items-center gap-8">
           {blog && (
             <Image
               src="/avatar.png"
@@ -29,14 +26,18 @@ const SingleBlogPage = async () => {
               className="object-cover rounded-full"
             />
           )}
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
+            <span className="font-bold text-gray-500">Author</span>
+            <span className="font-medium">dev-Danialw</span>
+          </div>
+          <div className="flex flex-col">
             <span className="font-bold text-gray-500">Published</span>
             <span className="font-medium">
               {blog.createdAt.toString().slice(4, 16)}
             </span>
           </div>
         </div>
-        <div className="text-xl text-justify">{blog.body}</div>
+        <div className="text-xl text-justify">{blog.desc}</div>
       </div>
     </div>
   );

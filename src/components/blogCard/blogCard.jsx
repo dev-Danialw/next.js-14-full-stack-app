@@ -17,7 +17,7 @@ const BlogCard = ({ blog }) => {
       <div className="w-[90%] h-[250px] relative">
         <h1 className="w-[90%] text-2xl mb-5 line-clamp-2">{blog.title}</h1>
         <p className="w-[90%] mb-5 font-light text-gray-400 line-clamp-4">
-          {blog.body}
+          {blog.desc}
         </p>
         <Link
           className="underline underline-offset-4 hover:text-blue-500"
