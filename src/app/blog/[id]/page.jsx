@@ -2,6 +2,17 @@ import Image from "next/image";
 
 import { getBlog } from "@/lib/data";
 
+export const generateMetadata = async ({ params }) => {
+  const { id } = params;
+
+  const blog = await getBlog(id);
+
+  return {
+    title: blog.title,
+    description: blog.desc,
+  };
+};
+
 const SingleBlogPage = async ({ params }) => {
   const { id } = params;
 

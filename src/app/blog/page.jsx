@@ -2,6 +2,11 @@ import BlogCard from "@/components/blogCard/blogCard";
 
 import { getBlogs } from "@/lib/data";
 
+export const metadata = {
+  title: "Blog Page",
+  description: "Created by dev-Danialw",
+};
+
 const BlogPage = async () => {
   const blogs = await getBlogs();
 
