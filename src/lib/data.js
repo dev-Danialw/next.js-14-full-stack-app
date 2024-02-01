@@ -1,4 +1,4 @@
-import { Blog, User } from "./modals";
+import { Blog, User } from "./models";
 import { connectTODataBase } from "./utils";
 import { unstable_noStore as noStore } from "next/cache";
 

@@ -2,6 +2,8 @@
 
 import NavLink from "./navLink/navLink";
 
+import { handleGoogleLogout } from "@/lib/actions";
+
 const links = [
   {
     title: "Home",
@@ -21,11 +23,9 @@ const links = [
   },
 ];
 
-// temp data
-const session = false;
 const isAdmin = true;
 
-const Links = () => {
+const Links = ({ session }) => {
   return (
     <div className="">
       <div className="flex items-center gap-2">
@@ -33,12 +33,16 @@ const Links = () => {
           <NavLink key={link.title} item={link} />
         ))}
 
-        {session ? (
+        {session?.user ? (
           <>
-            {isAdmin && <NavLink item={{ title: "Admin", path: "/admin" }} />}
-            <button className="p-2 rounded-sm font-bold bg-white text-black">
-              Logout
-            </button>
+            {session.user?.isAdmin && (
+              <NavLink item={{ title: "Admin", path: "/admin" }} />
+            )}
+            <form action={handleGoogleLogout}>
+              <button className="p-2 rounded-sm font-bold bg-white text-black">
+                Logout
+              </button>
+            </form>
           </>
         ) : (
           <NavLink item={{ title: "Login", path: "/login" }} />
