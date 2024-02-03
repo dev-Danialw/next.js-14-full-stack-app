@@ -5,7 +5,6 @@ import Links from "./links/Links";
 
 const Navbar = async () => {
   const session = await auth();
-  console.log(session);
 
   return (
     <div className="h-24 flex items-center justify-between">
