@@ -6,14 +6,15 @@ import { Blog } from "./models";
 import { signIn, signOut } from "./auth";
 
 export const addBlog = async (prevState, formData) => {
-  const { title, desc, slug, userId } = Object.fromEntries(formData);
+  const { title, slug, img, desc, userId } = Object.fromEntries(formData);
 
   try {
     connectTODataBase();
     const newBlog = new Blog({
       title,
-      desc,
       slug,
+      img,
+      desc,
       userId,
     });
 
