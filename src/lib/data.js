@@ -24,11 +24,22 @@ export const getBlog = async (slug) => {
   }
 };
 
-export const getUser = async (id) => {
+export const getUserById = async (id) => {
   noStore();
   try {
     await connectTODataBase();
     const user = await User.findOne({ id });
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error while getting user: ", error);
+  }
+};
+
+export const getUserByEmail = async (email) => {
+  try {
+    await connectTODataBase();
+    const user = await User.findOne({ email: email });
     return user;
   } catch (error) {
     console.log(error);

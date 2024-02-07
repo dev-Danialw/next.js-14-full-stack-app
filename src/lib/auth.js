@@ -1,8 +1,11 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
+
 import { connectTODataBase } from "./utils";
 import { User } from "./models";
-import { authConfig } from "./auth-config";
+import { getUserByEmail } from "./data";
+
+import { authConfig } from "./auth.config";
 
 export const {
   handlers: { GET, POST },
@@ -12,41 +15,52 @@ export const {
 } = NextAuth({
   ...authConfig,
   providers: [
-    Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
+      // authorization: {
+      //   params: {
+      //     prompt: "consent",
+      //     access_type: "offline",
+      //     response_type: "code",
+      //   },
+      // },
     }),
   ],
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({ user, account, profile }) {
       if (account.provider === "google") {
         connectTODataBase();
-        try {
-          const user = await User.findOne({ email: profile.email });
 
-          if (!user) {
+        try {
+          let existingUser = await getUserByEmail(profile.email);
+
+          if (!existingUser) {
             const newUser = new User({
               username: profile.name,
               email: profile.email,
-              img: profile.picture,
+              image: profile.picture,
             });
 
-            await newUser.save();
+            existingUser = await newUser.save();
+            console.log("User created successfully");
+          } else {
+            console.log("User already exists");
           }
+
+          user.id = existingUser?._id.toString();
+          user.isAdmin = existingUser?.isAdmin;
+
+          return user;
         } catch (error) {
           console.log(error);
           return false;
         }
       }
+
       return true;
     },
+    session: { strategy: "jwt" },
     ...authConfig.callbacks,
   },
 });

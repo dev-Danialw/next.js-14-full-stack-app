@@ -23,8 +23,6 @@ const links = [
   },
 ];
 
-const isAdmin = true;
-
 const Links = ({ session }) => {
   return (
     <div className="">

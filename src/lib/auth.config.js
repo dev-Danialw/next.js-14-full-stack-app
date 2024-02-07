@@ -2,15 +2,10 @@ export const authConfig = {
   pages: {
     signIn: "/login",
   },
+
   providers: [],
+
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.isAdmin = user.isAdmin;
-      }
-      return token;
-    },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
@@ -18,6 +13,15 @@ export const authConfig = {
       }
       return session;
     },
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.isAdmin = user.isAdmin;
+      }
+      return token;
+    },
+
     authorized({ auth, request }) {
       const user = auth?.user;
       const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");

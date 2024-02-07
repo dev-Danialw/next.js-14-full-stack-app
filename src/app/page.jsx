@@ -20,7 +20,12 @@ const Home = () => {
         </div>
       </div>
       <div className="flex-1 relative">
-        <Image src="/heroGif.gif" alt="" fill />
+        <Image
+          src="/heroGif.gif"
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
       </div>
     </div>
   );

@@ -5,21 +5,21 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
     },
     img: {
       type: String,
-      required: false,
     },
     isAdmin: {
       type: Boolean,
-      required: true,
       default: false,
     },
   },
@@ -34,7 +34,6 @@ const blogSchema = new mongoose.Schema(
     },
     img: {
       type: String,
-      required: false,
     },
     desc: {
       type: String,
@@ -47,11 +46,12 @@ const blogSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
+      unique: true,
     },
   },
 
   { timestamps: true }
 );
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
-export const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
+export const User = mongoose.models?.User || mongoose.model("User", userSchema);
+export const Blog = mongoose.models?.Blog || mongoose.model("Blog", blogSchema);
